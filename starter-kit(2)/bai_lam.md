@@ -1,25 +1,40 @@
 # BÀI LÀM – THI THỬ HACKATHON 01
 
 - **Mã đề:** Thi thử
-- **Họ tên:** 
-- **Lớp:** 
+- **Họ tên:** Cao Bao Lam
+- **Lớp:** CNTT2
 - **Link repository:** 
-- **Hệ điều hành (Windows/macOS):** 
+- **Hệ điều hành (Windows/macOS):** windows
 
 ## 4.2. Thao tác máy tính cơ bản bằng CLI
 
 ### Các lệnh đã chạy
 
 ```shell
-# Ghi lần lượt các lệnh đã chạy, mỗi lệnh một dòng
+Get-Location
+
+Get-ChildItem -Force
+
+Move-Item .\nhap_hang.txt .\docs\
+Move-Item .\logo* .\media\
+
+Copy-Item .\media\logo* .\backup\
+
+Get-ChildItem -Path . -Filter *.tmp -File |
+    Remove-Item
+
+Set-Location .\logs
+Get-ChildItem -Force
+
+Set-Location ..
 
 ```
 
 ### Kết quả liệt kê toàn bộ dự án (Windows: Get-ChildItem -Recurse -Force; macOS: ls -aR)
 
 ```text
-(Dán kết quả vào đây – xoá dòng này)
-
+Get-ChildItem -Force -Recurse |
+    Select-Object FullName, Mode
 ```
 
 ## 4.3. Lọc log thủ công
@@ -27,7 +42,12 @@
 ### Lệnh đã chạy
 
 ```shell
-# Ghi lệnh vào đây (xoá dòng này)
+
+Select-String -Path .\logs\shop.log -Pattern "ERROR" |
+    ForEach-Object { $_.Line } |
+    Set-Content .\logs\daily_report.txt
+
+Get-Content .\logs\daily_report.txt
 
 ```
 
@@ -42,7 +62,7 @@
 
 > README.md được chấm trực tiếp trên file `README.md` ở gốc dự án. Đánh dấu `[x]` vào các mục đã làm để tự kiểm tra.
 
-- [ ] Heading 1: tên dự án
+- [x] Heading 1: tên dự án
 - [ ] Mô tả ngắn có cả **in đậm** và *in nghiêng*
 - [ ] Bảng `Thư mục | Nội dung`, ít nhất 3 dòng dữ liệu
 - [ ] Code block chứa lệnh PowerShell/Terminal liệt kê nội dung dự án
@@ -54,14 +74,23 @@
 ### Lệnh chạy (Windows: nếu dùng Phụ lục 2 thì ghi cả 2 lệnh)
 
 ```shell
-# Ghi lệnh vào đây (xoá dòng này)
+# Tac gia: Cao Bao Lam
+# Ngay tao: 23/10/2026
 
+$logFile = ".\logs\shop.log"
+$reportFile = ".\logs\auto_report.txt"
+$keyword = "ERROR"
+
+Get-Content $logFile |
+    Select-String -Pattern $keyword |
+    ForEach-Object { $_.Line } |
+    Set-Content $reportFile
 ```
 
 ### Nội dung file logs/auto_report.txt
 
 ```text
-(Dán kết quả vào đây – xoá dòng này)
+Get-Content .\logs\auto_report.txt
 
 ```
 
@@ -70,8 +99,8 @@
 ### Lệnh
 
 ```shell
-# Ghi lệnh vào đây (xoá dòng này)
-
+(Get-Content .\logs\shop.log |
+    Select-String -Pattern "ERROR").Count
 ```
 
 ### Kết quả đếm (Windows: giá trị Count; macOS: con số in ra)
@@ -86,7 +115,23 @@
 ### Các lệnh đã chạy
 
 ```shell
-# Ghi lần lượt các lệnh đã chạy, mỗi lệnh một dòng (xoá dòng này)
+
+"=== TONG HOP LOG ===" |
+    Set-Content .\logs\tong_hop.txt
+
+
+Get-Content .\logs\shop.log |
+    Select-String -Pattern "WARNING" |
+    ForEach-Object { $_.Line } |
+    Add-Content .\logs\tong_hop.txt
+
+
+(Get-Content .\logs\shop.log |
+    Select-String -Pattern "ERROR").Count |
+    Add-Content .\logs\tong_hop.txt
+
+
+Get-Content .\logs\tong_hop.txt
 
 ```
 
